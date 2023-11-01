@@ -37,24 +37,6 @@ public $validate = array(
             'message' => false,
         ),
     ),
-    'gender' => array(
-        'allowEmpty' => array(
-            'rule' => 'allowEmpty',
-            'required' => false,
-        )
-    ),
-    'birthdate' => array(
-        'allowEmpty' => array(
-            'rule' => 'allowEmpty',
-            'required' => false,
-        )
-    ),
-    'hobby' => array(
-        'allowEmpty' => array(
-            'rule' => 'allowEmpty',
-            'required' => false,
-        )
-    ),
     'email' => array(
         'email' => array(
             'rule' => array('email'),
@@ -81,6 +63,8 @@ public $validate = array(
         ),
     ),
 );
+
+
 
 //confirm_password rule
 //compare password and confirm_password without hashing

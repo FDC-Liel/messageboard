@@ -25,32 +25,30 @@
             </div>
             <!-- User's Details -->
             <div class="col-md-9">
-            <?php if ($userData): ?>
+                <?php if ($userData): ?>
                 <div class="mb-3">
-                    <h4>Name: <span id="name"><?php echo h($userData['User']['name']); ?></span></h4>
+                    <h4>Name: <span id="name"><?php echo isset($userData['User']['name']) ? $userData['User']['name']:'';?></span></h4>
                 </div>
                 <div class="mb-3">
-                    <h4>Gender: <span id="gender"><?php echo h($userData['User']['gender']); ?></span></h4>
+                    <h4>Gender: <span id="gender"><?php echo isset($userData['User']['gender']) ? $userData['User']['gender']:'';?></span></h4>
                 </div>
                 <div class="mb-3">
-                    <h4>Birthdate: <span id="birthdate"><?php echo h($userData['User']['birthdate']); ?></span></h4>
+                    <h4>Birthdate: <span id="birthdate"><?php echo isset($userData['User']['birthdate']) ? $userData['User']['birthdate']:'';?></span></h4>
                 </div>
                 <div class="mb-3">
-                    <h4>Joined: <span id="joined"><?php echo h($userData['User']['created']); ?></span></h4>
+                    <h4>Joined: <span id="joined"><?php echo isset($userData['User']['created']) ? $userData['User']['created']:'';?></span></h4>
                 </div>
                 <div class="mb-3">
-                    <h4>Last Login: <span id="last_login"><?php echo h($userData['User']['last_login_time']); ?></span></h4>
+                    <h4>Last Login: <span id="last_login"><?php echo isset($userData['User']['last_login_time']) ? $userData['User']['last_login_time']:'';?></span></h4>
                 </div>
-                <?php else: ?>
-                    <p>No user data available.</p>
-                <?php endif; ?>    
             </div>
         </div>
-        <div class="row mt-4">
         <div class="col-md-12">
             <h4>Hobby:</h4>
-            <p><?php echo h($userData['User']['hobby']); ?></p>
+            <p><?php echo isset($userData['User']['hobby']) ? $userData['User']['hobby']:'';?></p>
+            <?php else: ?>
+                <p><strong>No user data available.</strong></p>
+            <?php endif; ?> 
         </div>
-    </div>
     </div>
 </div>

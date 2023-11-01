@@ -7,7 +7,7 @@ class UsersController extends AppController {
         parent::beforeFilter();
         // Allow users to register and logout.
         $this->Auth->deny('index');
-        $this->Auth->allow(array('controller'=>'register', 'action'=>'index'), 'login', 'logout');
+        $this->Auth->allow(array('login', 'logout'));
     }
 
     public function login() {
@@ -29,7 +29,9 @@ class UsersController extends AppController {
     // USER'S DASHBOARD
     public function index() {
         // Retrieve the currently logged-in user's data.
-        $userData = $this->Auth->user();
+        $userData = $this->Auth->user(); 
+        // $id = $this->Session->read('Auth.User');
+        // $userData = $this->User->findById($id);
 
         // Set a view variable with the user data.
         $this->set('userData', $userData);
@@ -48,26 +50,53 @@ class UsersController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             // Set the model's ID to the user's ID for updating
             $this->User->id = $id;
-    
-            // Check if a new image file is uploaded
-            if (!empty($this->request->data['User']['image']['tmp_name'])) {
-                // Read the contents of the uploaded file
-                $imageData = file_get_contents($this->request->data['User']['image']['tmp_name']);
-    
-                // Save the image data to the database
-                $this->User->saveField('image', $imageData);
-            }
 
+            $uploadedFile = $this->request->data['User']['image'];
+                
+                // File path
+                $filePath = WWW_ROOT .'img'. DS;
+
+                // Check if there is file directory
+                if (!file_exists($filePath)) {
+                    mkdir($filePath,0777,true);
+                }
+
+                if (!empty($uploadedFile['name'])) {
+
+                    $fileName  = uniqid() .'-'. $uploadedFile['name'];
+
+                    $targetPath = $filePath . $fileName;
+
+                    if(move_uploaded_file($uploadedFile['tmp_name'], $targetPath)) {
+                        // Update the img data into pathname 
+                        $this->request->data['User']['image'] = $fileName;
+                        
+                    } else {
+                        $this->Flash->error('Failed to upload image!', array(
+                            'key' => 'error',
+                        ));
+                        $this->redirect('index');
+                    }
+
+                } else {
+                    // Use this if the user has a profile pic and doesn't want to change the profile pic
+                    unset($this->request->data['User']['image']);
+                } 
+            
             $name = $this->request->data['User']['name'];
             $gender = $this->request->data['User']['gender'];
             $birthdate = $this->request->data['User']['birthdate'];
             $hobby = $this->request->data['User']['hobby'];
+            $email = $this->request->data['User']['email'];
+            $password = $this->request->data['User']['password'];
 
             $data = array(
                     'name' => $name,
                     'gender' => $gender,
                     'birthdate' => $birthdate,
                     'hobby' => $hobby,
+                    'email' => $email,
+                    'password' => $password,
                 );
 
             // var_dump(($this->request->data));
@@ -98,7 +127,7 @@ class UsersController extends AppController {
     }
 
     // DELETE USER'S MESSAGES/CONVERSATIONS
-    public function delete($id) { // app/View/Users/delete.ctp
+    public function delete($id) {
 
         $this->User->id = $id;
 

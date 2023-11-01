@@ -8,6 +8,13 @@ class RegisterController extends AppController {
     //Access User model
     public $uses = array('User');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        // Allow users to register and logout.
+        $this->Auth->deny('index');
+        $this->Auth->allow(array('index'));
+    }
+
     public function index() {
         if ($this->Auth->user()) {
             $this->redirect(['controller' => 'users', 'action' => 'index']); // Redirect to the dashboard if logged in.
