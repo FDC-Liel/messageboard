@@ -13,19 +13,19 @@
     <div class="card-body">
         <div class="row mt-4">
             <!-- User's Image -->
+            <?php if ($userData): ?>
             <div class="col-md-3">
-                <?php
-                    // Check if the user has an image
-                    if (!empty($userData['User']['image'])) {
-                        echo $this->Html->image($userData['User']['image'], array('alt' => 'User Image', 'id' => 'profile-image',));
-                    } else {
-                        echo $this->Html->image('default_image_here', array('alt' => 'Default Image'));
-                    }
+                <?php 
+                    $img = isset($userData['User']['image']) ? $userData['User']['image'] : 'default-avatar.jpeg';
+                    echo $this->Html->image($img, array('alt' => 'Default Avatar',
+                        'class' => 'border border-dark mx-auto d-block',
+                        'width' => '180',
+                        'height' => '180'
+                    ));
                 ?>
             </div>
             <!-- User's Details -->
             <div class="col-md-9">
-                <?php if ($userData): ?>
                 <div class="mb-3">
                     <h4>Name: <span id="name"><?php echo isset($userData['User']['name']) ? $userData['User']['name']:'';?></span></h4>
                 </div>

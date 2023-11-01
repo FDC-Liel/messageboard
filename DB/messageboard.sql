@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2023 at 08:17 AM
+-- Generation Time: Nov 01, 2023 at 12:20 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.29
 
@@ -29,10 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `conversations` (
   `id` int(11) NOT NULL,
-  `sender_id` int(11) UNSIGNED NOT NULL,
-  `recipient_id` int(11) UNSIGNED NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `recipient_id` int(11) NOT NULL,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `conversations`
+--
+
+INSERT INTO `conversations` (`id`, `sender_id`, `recipient_id`, `created`) VALUES
+(1, 1, 4, '2023-11-01 11:48:00'),
+(2, 3, 1, '2023-11-01 11:49:59'),
+(3, 5, 4, '2023-11-01 11:50:14');
 
 -- --------------------------------------------------------
 
@@ -42,7 +51,7 @@ CREATE TABLE `conversations` (
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
   `conversation_id` int(11) NOT NULL,
   `message` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
@@ -54,10 +63,10 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `user_id`, `conversation_id`, `message`, `created`, `modified`) VALUES
-(1, 1, 0, 'post1', '2023-10-26 07:02:04', '2023-10-26 07:02:04'),
-(2, 4, 0, 'post2', '2023-10-26 07:04:24', '2023-10-26 07:04:24'),
-(3, 2, 0, 'post3', '2023-10-26 07:09:45', '2023-10-26 07:09:45'),
-(4, 1, 0, 'post4', '2023-10-26 07:13:57', '2023-10-26 07:13:57');
+(1, 1, 1, 'post1', '2023-10-26 07:02:04', '2023-10-26 07:02:04'),
+(2, 4, 2, 'post2', '2023-10-26 07:04:24', '2023-10-26 07:04:24'),
+(3, 2, 3, 'post3', '2023-10-26 07:09:45', '2023-10-26 07:09:45'),
+(4, 1, 2, 'post4', '2023-10-26 07:13:57', '2023-10-26 07:13:57');
 
 -- --------------------------------------------------------
 
@@ -68,15 +77,15 @@ INSERT INTO `messages` (`id`, `user_id`, `conversation_id`, `message`, `created`
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `image` varchar(11) NOT NULL,
-  `gender` varchar(11) NOT NULL,
-  `birthdate` varchar(128) NOT NULL,
-  `hobby` text NOT NULL,
+  `image` varchar(128) DEFAULT NULL,
+  `gender` varchar(11) DEFAULT NULL,
+  `birthdate` varchar(128) DEFAULT NULL,
+  `hobby` text DEFAULT NULL,
   `email` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `last_login_time` datetime NOT NULL
+  `last_login_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -84,9 +93,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `image`, `gender`, `birthdate`, `hobby`, `email`, `password`, `created`, `modified`, `last_login_time`) VALUES
-(1, 'test1', '', 'Female', '10-10-2013', 'fhdhdfdhfdh', 'test1@test.com', '$2a$10$0zzqENGZ.MY1cxnclC0L7u/tHtkVo5kAP6/2MjsSMQiUqLloWTJYy', '2023-10-30 06:06:28', '2023-11-01 07:14:28', '2023-11-01 06:13:31'),
+(1, 'user1', '6542177f7e6af-p1.jpg', 'Female', '09-19-2013', 'updated hobby updated hobby updated hobby', 'user1@test.com', '$2a$10$Tscr5HuWNkd4JV/XoRrfr.fw3t/z/q55K3lSjrxOV6t8UViu00qda', '2023-10-30 06:06:28', '2023-11-01 10:17:26', '2023-11-01 10:17:26'),
 (2, 'test222', '', 'Female', '20-11-2023', 'qweqeqweq', 'test2@test.com', '$2a$10$vsLEJYgbMoyfWnmGPcEkQOT5LfM.MVmx9ZMQINIC6WMy7LtnkWJeS', '2023-10-31 08:54:30', '2023-11-01 03:59:36', '2023-11-01 03:58:47'),
-(3, 'test3', '', '', '', '', 'test3@test.com', '$2a$10$5VpGZ24X0TWoydn1Rr36mO4O1bznJTu0sQqhpLfVf7Ug9I4N8OZTK', '2023-10-31 10:22:21', '2023-10-31 10:22:27', '2023-10-31 10:22:27');
+(3, 'test3', '', '', '', '', 'test3@test.com', '$2a$10$5VpGZ24X0TWoydn1Rr36mO4O1bznJTu0sQqhpLfVf7Ug9I4N8OZTK', '2023-10-31 10:22:21', '2023-10-31 10:22:27', '2023-10-31 10:22:27'),
+(4, 'user4', '6542216304b67-p1.jpg', 'Male', '03-25-2015', 'user4user4user4user4user4user4user4user4', 'user4@test.com', '$2a$10$sAyIVuApqc1FLg1USK2wv.7R/IkK9VOFD7srfIJJxTWnd4e0ynObe', '2023-11-01 10:47:53', '2023-11-01 10:59:20', '2023-11-01 10:59:20'),
+(5, 'test5', '6542317cb353a-65421077ede7c-p2.jpg', 'Female', '08-13-2023', 'fdssdgsgdsgsdgsd', 'test5@test.com', '$2a$10$hBKtqrWRYg7SbRbaM26jDOfdvhBmgkdd6ovi5VGXEdWF718KLadgW', '2023-11-01 11:01:19', '2023-11-01 12:16:47', '2023-11-01 12:16:47'),
+(6, 'user6', '6542341caa6fd-p3.jpg', 'Female', '08-14-2031', 'Hobby Hobby Hobby Hobby Hobby Hobby Hobby Hobby Hobby', 'user6@test.com', '$2a$10$senSURg2M6cX5A.C97EWQuq8rlwjJfVq8dmcXV.zBw9a5VdHJemUi', '2023-11-01 12:17:50', '2023-11-01 12:19:01', '2023-11-01 12:19:01');
 
 --
 -- Indexes for dumped tables
@@ -96,13 +108,17 @@ INSERT INTO `users` (`id`, `name`, `image`, `gender`, `birthdate`, `hobby`, `ema
 -- Indexes for table `conversations`
 --
 ALTER TABLE `conversations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `recipient_id_fk` (`recipient_id`),
+  ADD KEY `sender_id_fk` (`sender_id`);
 
 --
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `message_conversation_id_fk` (`conversation_id`),
+  ADD KEY `message_user_id_fk` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -118,7 +134,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -130,7 +146,25 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `conversations`
+--
+ALTER TABLE `conversations`
+  ADD CONSTRAINT `recipient_id_fk` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `sender_id_fk` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `message_conversation_id_fk` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `message_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

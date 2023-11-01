@@ -22,12 +22,11 @@
                 'label'=> false,
                 'class'=> 'dropify',
                 'type'=> 'file',
-                'id' => 'image',
-                'onchange' => 'previewImage()',
                 'data-max-file-size'=> '2M',
                 'data-allowed-file-extensions'=> array('jpg','png','gif'),
                 'data-max-file-size-preview' => '2M',
                 'data-default-file' => $img,
+                'value' => $userData['User']['image']
             ));
         ?>
         </div>

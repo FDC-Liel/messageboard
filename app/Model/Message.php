@@ -2,8 +2,16 @@
 
 class Message extends AppModel {
 
-    public $belongsTo = 'User';
+    public $belongsTo = array(
+        'Conversation' => array(
+            'className' => 'Conversations',
+            'foreignKey' => 'conversation_id'
+        ),
+        'User' => array(
+            'className' => 'Users',
+            'foreignKey' => 'user_id'
+        )
+    );
 }
-
 
 ?>

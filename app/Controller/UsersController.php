@@ -89,6 +89,7 @@ class UsersController extends AppController {
             $hobby = $this->request->data['User']['hobby'];
             $email = $this->request->data['User']['email'];
             $password = $this->request->data['User']['password'];
+            $image = $this->request->data['User']['image'];
 
             $data = array(
                     'name' => $name,
@@ -97,6 +98,7 @@ class UsersController extends AppController {
                     'hobby' => $hobby,
                     'email' => $email,
                     'password' => $password,
+                    'image' => $image,
                 );
 
             // var_dump(($this->request->data));
