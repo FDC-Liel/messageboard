@@ -16,6 +16,7 @@ class RegisterController extends AppController {
     }
 
     public function index() {
+        // redirect user to their profile, if they try to go to register page through explicitly changing the url
         if ($this->Auth->user()) {
             $this->redirect(['controller' => 'users', 'action' => 'index']); // Redirect to the dashboard if logged in.
         }
@@ -23,6 +24,7 @@ class RegisterController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             $userData = $this->request->data['User'];
+
 
             // Set the user data to the modified data
             $this->User->set($userData);

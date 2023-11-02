@@ -2,6 +2,9 @@
 
 class Message extends AppModel {
 
+    public $useTable = 'messages';
+    public $displayField = 'message';
+
     public $belongsTo = array(
         'Conversation' => array(
             'className' => 'Conversations',

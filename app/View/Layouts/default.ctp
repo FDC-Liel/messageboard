@@ -26,10 +26,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <?php
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('dropify.min');
+        echo $this->Html->css('select2.min');
         echo $this->Html->script('jquery.min');
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('dropify.min');
+        echo $this->Html->script('select2.min');
+        echo $this->Html->script('dropify.min');
+        echo $this->Html->script('moment.min');
     ?>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
@@ -54,13 +58,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                             <?php echo $this->Html->link('Message List', array('controller'=>'messages', 'action'=>'index')); ?>
                         </li>
                         <li class="nav-item mx-4">
-                            <?php echo $this->Html->link('Edit Profile', array('controller'=>'users', 'action'=>'edit', $current_user['User']['id'])); ?>
+                            <?php echo $this->Html->link('Edit Profile', array('controller'=>'users', 'action'=>'edit')); ?>
                         </li>
                     </ul>    
                     <ul class="nav">
                         <li class="nav-item mx-4">
                             <strong>
-                            Welcome, <?php echo isset($current_user['User']['name']) ? h($current_user['User']['name']) : 'User' ?>
+                            Welcome, <?php echo isset($current_user['name']) ? h($current_user['name']) : 'User' ?>
                             </strong>
                         </li>
                         <li class="nav-item">
@@ -73,12 +77,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 <?php endif; ?>
             </div>
 
-            <div class="container-fluid">
-                <?php echo $this->Flash->render(); ?>
-
-                <?php echo $this->fetch('content'); ?>
-            </div>
         </div>    
+
+        <div class="container-fluid">
+            <?php echo $this->Flash->render(); ?>
+
+            <?php echo $this->fetch('content'); ?>
+        </div>
+
     </div>
 
     

@@ -5,7 +5,7 @@
             <p>
                 <a href="<?php echo $this->Html->url(array('controller' => 'register', 'action' => 'index')); ?>"
                    class="btn btn-primary btn-lg">Register</a>
-                <a href="<?php echo $this->Html->url(array('controller' => 'login', 'action' => 'index')); ?>"
+                <a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>"
                    class="btn btn-success btn-lg">Login</a>
             </p>
         </div>

@@ -11,7 +11,7 @@ class Conversation extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'conversation';
+	public $useTable = 'conversations';
 
 /**
  * Display field
@@ -20,21 +20,22 @@ class Conversation extends AppModel {
  */
 	public $displayField = 'id';
 
+    public $hasMany = array(
+        'Message' => array(
+            'className' => 'Message',
+            'foreignKey' => 'conversation_id'
+        )
+    );
+
 	public $belongsTo = array(
         'Sender' => array(
             'className' => 'User',
-            'foreignKey' => 'sender_id_fk'
+            'foreignKey' => 'sender_id'
         ),
         'Recipient' => array(
             'className' => 'User',
-            'foreignKey' => 'recipient_id_fk'
+            'foreignKey' => 'recipient_id'
         ),
     );
 
-	public $hasMany = array(
-        'Message' => array(
-            'className' => 'Message',
-            'foreignKey' => 'convo_id'
-        )
-    );
 }

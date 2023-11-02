@@ -11,14 +11,28 @@ class UsersController extends AppController {
     }
 
     public function login() {
-        // prevents the user from accessing a particular page by explicitly changing the url
+        // prevents the user from accessing a particular page by explicitly changing the URL
         if ($this->Auth->user()) {
             $this->redirect(['controller' => 'users', 'action' => 'index']); // Redirect to the dashboard if logged in.
         }
-
+    
         if ($this->request->is('post')) {
-
             if ($this->Auth->login()) {
+                // Get the logged-in user's ID
+                $userId = $this->Auth->user('id');
+    
+                // Load the User model
+                $this->loadModel('User');
+    
+                // Find the user by ID
+                $user = $this->User->findById($userId);
+    
+                if ($user) {
+                    // Update the last_login_time field
+                    $this->User->id = $userId;
+                    $this->User->saveField('last_login_time', date('Y-m-d H:i:s'));
+                }
+    
                 $this->redirect($this->Auth->redirectUrl());
             } else {
                 $this->Session->setFlash('Invalid email or password. Please try again.');
@@ -26,30 +40,33 @@ class UsersController extends AppController {
         }
     }
     
+    
     // USER'S DASHBOARD
     public function index() {
         // Retrieve the currently logged-in user's data.
-        $userData = $this->Auth->user(); 
-        // $id = $this->Session->read('Auth.User');
-        // $userData = $this->User->findById($id);
+        // $userData = $this->Auth->user(); 
+        $id = $this->Session->read('Auth.User.id');
+        $userData = $this->User->findById($id);
 
         // Set a view variable with the user data.
         $this->set('userData', $userData);
     }
 
-    public function edit($id = null) {
+    public function edit() {
+    // public function edit($id = null) {
+        // Fetch the user data to display in the form
+        // $userData = $this->User->findById($id);
+        $userData = $this->Session->read('Auth.User.id');
+    
         // Check if the record exists
-        if (!$this->User->exists($id)) {
+        if (!$this->User->exists($userData)) {
             throw new NotFoundException(__('User not found!'));
         }
-    
-        // Fetch the user data to display in the form
-        $userData = $this->User->findById($id);
-    
+
         // Check if the request is a POST request (form submission)
         if ($this->request->is('post') || $this->request->is('put')) {
             // Set the model's ID to the user's ID for updating
-            $this->User->id = $id;
+            $this->User->id = $userData;
 
             $uploadedFile = $this->request->data['User']['image'];
                 
@@ -106,7 +123,7 @@ class UsersController extends AppController {
             
             // Attempt to save the updated user data
             if ($this->User->save($data)) {
-                $this->User->id = $id;
+                // $this->User->id = $id;
                 $this->Session->setFlash('Profile updated successfully.');
                 $this->redirect(array('controller' => 'users', 'action' => 'index'));
             } else {
@@ -135,7 +152,7 @@ class UsersController extends AppController {
 
         if($this->request->is(array('post', 'put', 'delete'))) {
             if($this->User->delete()) {
-                $this->Session->setFlash('The user has been deleted!');
+                $this->Session->setFlash('The message has been deleted!');
                 $this->redirect('index');
             }
         }
@@ -147,16 +164,16 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function view_chat($user_id) {
-        // Set the current user's ID
-        $currentUserId = $this->Auth->user('id');
-        $this->set('currentUserId', $currentUserId);
+    // public function view_chat($user_id) {
+    //     // Set the current user's ID
+    //     $currentUserId = $this->Auth->user('id');
+    //     $this->set('currentUserId', $currentUserId);
     
-        // Load the chat messages
-        $this->loadModel('Message'); // Load the Message model if not already loaded
-        $this->Message->recursive = -1; // Load messages without related data
-        $this->set('messages', $this->Message->getChatMessages($user_id, $currentUserId));
-    }
+    //     // Load the chat messages
+    //     $this->loadModel('Message'); // Load the Message model if not already loaded
+    //     $this->Message->recursive = -1; // Load messages without related data
+    //     $this->set('messages', $this->Message->getChatMessages($user_id, $currentUserId));
+    // }
 
     
 }// end of class UserController
